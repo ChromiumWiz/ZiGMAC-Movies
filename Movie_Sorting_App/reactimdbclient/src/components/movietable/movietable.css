@@ -1,0 +1,41 @@
+.movieTable{
+    background-color: rgba(255, 255, 255, 0.877);
+    position: relative;
+}
+.fixed-table-head{
+    position: fixed;
+    top: 350px;
+    right: 0px;
+    background-color: #000;
+    padding: 10px;
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+.fixed-table-head th{
+    padding: 0px 15px;
+    color: #FFD664;
+}
+.movieTable td{
+    font-size: 12px;
+    text-align: left;
+    line-height: 18px;
+}
+.pWrapper{
+    width: auto;
+    float: left;
+    background-color: rgba(82, 54, 240, 0.301);
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 15px;
+}
+.pWrapper2{
+    width: auto;
+    float: left;
+    background-color: rgba(240, 212, 54, 0.301);
+    padding: 5px 10px;
+    margin: 3px;
+    border-radius: 15px;
+}
+.pageButton{
+    margin: 5px;
+}
