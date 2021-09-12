@@ -81,7 +81,7 @@ exports.image = (req, res) => {
     } else {
       // res.sendFile(req.get('host')+'/'+data.img_path);
       res.sendFile(
-        "F:\\Zigmac\\Web\\MovieDB\\App\\imdbScrapper\\images\\posters\\" +
+        "F:\\Zigmac\\Web\\MovieDB\\App\\GITHUB\\ZiGMAC-Movies\\Movie_Sorting_App\\MovieScrapper\\images\\posters\\" +
           data.img_path
       );
     }

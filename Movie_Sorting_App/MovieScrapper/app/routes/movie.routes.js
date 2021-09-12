@@ -1,41 +1,44 @@
-module.exports = app => {
-    const movies = require("../controllers/movie.controller.js");
-  
-    // simple route
-// app.get("/", (req, res) => {
-//   res.json({ message: "Welcome to bezkoder application." });
-// });
+module.exports = (app) => {
+  const movies = require("../controllers/movie.controller.js");
 
-app.get('/',function(req,res) {
-  res.sendFile('views/index.html', { root: './app' });
-});
+  // simple route
+  // app.get("/", (req, res) => {
+  //   res.json({ message: "Welcome to bezkoder application." });
+  // });
 
-// Retrieve all Customers
-app.get("/search/:title", movies.findAll);
+  app.get("/", function (req, res) {
+    res.sendFile("views/index.html", { root: "./app" });
+  });
 
-// Retrieve a single Customer with imdbId
-app.get("/movies/:imdbId", movies.findOne);
+  // Retrieve all Customers
+  // app.get("/search/:title", movies.findAll);
 
-// Retrieve a single Customer with imdbTitle
-app.get("/title/:title", movies.searchTitle);
+  // Retrieve a single Customer with imdbId
+  // app.get("/movies/:imdbId", movies.findOne);
 
+  app.get("/direct", function (req, res) {
+    var result = movies.getDirectoriesRecursive();
+    res.send(result);
+  });
 
-// app.get("/imdb/:title",  movies.imdbIds);
-app.post("/imdb",  movies.imdbIds);
+  // Retrieve a single Customer with imdbTitle
+  // app.get("/title/:title", movies.searchTitle);
 
+  app.get("/imdb/:title", movies.imdbIds);
+  // app.post("/imdb", movies.imdbIds);
 
-app.post("/movies", movies.create);
+  // app.post("/movies", movies.create);
 
-// Update a Customer with customerId
-app.put("/movies/:movieId", movies.update);
+  // Update a Customer with customerId
+  // app.put("/movies/:movieId", movies.update);
 
-// Delete a Customer with customerId
-app.delete("/movies/:movieId", movies.delete);
+  // Delete a Customer with customerId
+  app.delete("/movies/:movieId", movies.delete);
 
-// Create a new Customer
-app.delete("/movies", movies.deleteAll);
+  // Create a new Customer
+  // app.delete("/movies", movies.deleteAll);
 
+  // app.get("/image/:id", movies.image);
 
-app.get("/image/:id", movies.image);
-
-  };
+  // app.get("/imdbfetch", movies.checkFetch);
+};

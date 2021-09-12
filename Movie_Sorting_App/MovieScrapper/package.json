@@ -17,6 +17,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "fs": "0.0.1-security",
+    "fs-jetpack": "^4.1.1",
+    "list-react-files": "^0.2.0",
     "mysql": "^2.18.1",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
