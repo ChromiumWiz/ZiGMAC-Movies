@@ -29,21 +29,23 @@ function FetchlistAlt(type) {
   const classes = useStyles();
 
   useEffect(() => {
-    fetch("http://localhost:3001/movies?sort=id&type=" + type2 + "&limit=10")
+    fetch(
+      "http://169.254.212.69:3001/movies?sort=id&type=" + type2 + "&limit=10"
+    )
       .then((response) => response.json())
       .then((json) => setData(json))
       .then(setOff(10));
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3001/countmovie?type=movie")
+    fetch("http://169.254.212.69:3001/countmovie?type=movie")
       .then((response) => response.json())
       .then((json) => setCount(json));
   }, []);
 
   function nextPage(offS) {
     var url =
-      "http://localhost:3001/movies?sort=id&type=" +
+      "http://169.254.212.69:3001/movies?sort=id&type=" +
       type2 +
       "&limit=10&offset=" +
       offS +
@@ -60,7 +62,7 @@ function FetchlistAlt(type) {
     var ofp = offset - 20;
     var ofn = offset - 10;
     var url =
-      "http://localhost:3001/movies?sort=id&type=" +
+      "http://169.254.212.69:3001/movies?sort=id&type=" +
       type2 +
       "&limit=10&offset=" +
       ofp +

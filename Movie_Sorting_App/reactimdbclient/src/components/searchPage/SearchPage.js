@@ -42,7 +42,7 @@ function SearchPage() {
 
   console.log(sp);
   function spFetch() {
-    fetch("http://localhost:3001/search/" + sp + "/offset/0")
+    fetch("http://169.254.212.69:3001/search/" + sp + "/offset/0")
       .then((response) => response.json())
       .then((json) => setData(json))
       .then(setOff(10))
@@ -61,13 +61,14 @@ function SearchPage() {
   spChage();
 
   useEffect(() => {
-    fetch("http://localhost:3001/searchCount/" + sp)
+    fetch("http://169.254.212.69:3001/searchCount/" + sp)
       .then((response) => response.json())
       .then((json) => setCount(json));
   }, []);
 
   function nextPage(offS) {
-    var url = "http://localhost:3001/search/" + sp + "/offset/" + offS + "";
+    var url =
+      "http://169.254.212.69:3001/search/" + sp + "/offset/" + offS + "";
     // console.log(offS);
     var ofs = offS + 10;
     fetch(url)
@@ -79,7 +80,7 @@ function SearchPage() {
   function prevPage(offS) {
     var ofp = offset - 20;
     var ofn = offset - 10;
-    var url = "http://localhost:3001/search/" + sp + "/offset/" + ofp + "";
+    var url = "http://169.254.212.69:3001/search/" + sp + "/offset/" + ofp + "";
     // console.log(offS);
     // console.log(offset);
     fetch(url)

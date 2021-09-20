@@ -152,3 +152,14 @@ background-color: #fff;
     text-decoration: none;
     color: #000;
 }
+.downloadWrapper{
+    display: block;
+    margin-bottom: 15px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: rgba(255,255,255,0.7);
+    text-align: left;
+    text-overflow: clip;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}

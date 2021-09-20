@@ -49,11 +49,9 @@ Movie.addLocal = (entry, basePath, rootPath) => {
       console.log("error: ", err);
     } else {
       console.log("insert id: " + res.insertId);
-      var file_path =
-        pref[0] + "-" + res.insertId + "]" + pref[1] + "]" + pref[2];
+      var file_path = pref[0] + "-" + res.insertId + "]" + pref[1];
       jetpack.rename(basePath, file_path);
-      // name2 = file_path;
-      // console.log(name2);
+
       var query2 =
         "UPDATE `movie_data` SET `local_title`='" +
         file_path +

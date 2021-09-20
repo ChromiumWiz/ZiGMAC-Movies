@@ -19,6 +19,8 @@ module.exports = (app) => {
 
   app.get("/searchcount/:sp", movies.searchCount);
 
+  app.post("/createtoken", movies.createToken);
+
   // // Update a Customer with customerId
   // app.put("/customers/:customerId", customers.update);
 

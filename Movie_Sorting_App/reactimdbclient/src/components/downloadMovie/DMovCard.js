@@ -1,12 +1,11 @@
 import React from "react";
-import { Col, Image, Row, Button } from "react-bootstrap";
+import { Col, Image, Row } from "react-bootstrap";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./../moviecard/moviecard.css";
-import { Film, Tv, Download } from "react-bootstrap-icons";
+import { Film, Tv } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 
-function SMovCard({
-  id,
+function dMovCard({
   imgurl,
   title,
   rating,
@@ -15,9 +14,7 @@ function SMovCard({
   summary,
   stars,
   type,
-  local_path,
 }) {
-  const download_path = "/download/" + id;
   const Genres = ({ gens }) => {
     // Loop through the array and create a badge-like component instead of a comma-separated string
     gens = gens.split(",");
@@ -76,16 +73,11 @@ function SMovCard({
         <Image className="posterImg" src={imgurl} />
       </Col>
       <Col className="smovCard">
+        <div className=""></div>
         <h2 className="movie-title">
           <span>{title}</span>
           <Type rType={type} />
         </h2>
-        <h3>
-          {/* <div>
-            {" "}
-            <GoBack />{" "}
-          </div> */}
-        </h3>
         <p className="floatLeft">
           <span className="movLbl">Rating : </span>
           <span className="movDtl yellow">
@@ -96,15 +88,6 @@ function SMovCard({
         <p className="floatRight">
           <span className="movLbl">Released : </span>
           <span className="movDtl yellow">{published}</span>
-        </p>
-        <div className="clearfix"></div>
-        <p className="floatLeft">
-          <Link to={download_path}>
-            <Button>
-              Download &nbsp;&nbsp;
-              <Download size="26" />
-            </Button>
-          </Link>
         </p>
         <div className="clearfix"></div>
         <p>
@@ -128,4 +111,4 @@ function SMovCard({
   );
 }
 
-export default SMovCard;
+export default dMovCard;

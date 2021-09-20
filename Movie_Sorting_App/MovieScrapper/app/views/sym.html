@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <!-- <form action="/sym/create" method="POST" enctype="multipart/form-data"> -->
+
+            <input type="text" name="link_dest" id="link_dest" placeholder="Sym link destination" >
+            <br>
+            <input type="text" name="file_dest" id="file_dest" >
+            <br>
+
+            <input type="button" value="Submit" id="submit">
+        <!-- </form> -->
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+        
+        <script >
+            $(document).ready(function(){
+        var link_dest,file_dest;
+        $("#submit").click(function(){
+            link_dest=$("#link_dest").val();
+            link_dest = encodeURIComponent(link_dest);
+            file_dest=$("#file_dest").val();
+            file_dest = encodeURIComponent(file_dest);;
+            
+          $.post("http://localhost:3002/sym/create",{link_dest: link_dest, file_dest: file_dest}, function(data){
+            if(data.msg === "success") {
+                alert(data.msg);
+                console.log(data.result);
+              }
+          });
+        });
+      });
+        </script>
+    </body>
+</html>

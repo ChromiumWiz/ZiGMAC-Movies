@@ -1,3 +1,10 @@
+const { v4: uuidv4 } = require("uuid");
+// const fetch = require("node-fetch");
+const http = require("http");
+
+require("es6-promise").polyfill();
+require("isomorphic-fetch");
+
 const Movie = require("../models/movie.model.js");
 
 // Create and Save a new movie
@@ -147,25 +154,49 @@ exports.searchCount = (req, res) => {
   });
 };
 
-// exports.count = (req) => {
-//   console.log(req.params.type);
-//   // Movie.reqCount(req.params.type, (err, data) => {
-//   //   if (err) {
-//   //     if (err.kind === "not_found") {
-//   //       res.status(404).send({
-//   //         message: `Couldnt Count`,
-//   //       });
-//   //     } else {
-//   //       res.status(500).send({
-//   //         message: "Error counting ",
-//   //       });
-//   //     }
-//   //   } else {
-//   //     res.send(data);
-//   //   }
-//   // });
-//   res.json({ message: "Counting" });
-// };
+exports.createToken = (reqest, res) => {
+  console.log(reqest.body);
+
+  var filePath = reqest.body.path;
+  console.log(filePath);
+  var uuid = uuidv4();
+  console.log(uuid);
+
+  var post_data = JSON.stringify({ token: uuid, path: filePath, ttl: "30" });
+
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-Length": Buffer.byteLength(post_data),
+      // Host: "http://169.254.212.69:3001/",
+      secret: "abcdefgh",
+    },
+    body: post_data,
+  };
+  fetch(
+    "http://169.254.212.69:8888/services/files/createsession/",
+    requestOptions
+  ).then((response) => {
+    if (response.ok) {
+      var resData = JSON.stringify({
+        status: response.ok,
+        token: uuid,
+        path: filePath,
+      });
+      // console.log("Token accepted");
+      res.json(resData);
+    } else {
+      var resData = JSON.stringify({
+        status: false,
+        token: uuid,
+        path: filePath,
+      });
+      res.send(resData);
+    }
+  });
+};
+
 // Update a movie identified by the movieId in the request
 exports.update = (req, res) => {};
 

@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Col, Image, Container, Row } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./../moviecard/moviecard.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  useParams,
-  Link,
-} from "react-router-dom";
-import Recent from "./../recent/Recent";
+import { useParams } from "react-router-dom";
 import SMovCard from "./SMovCard";
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
 
 function Smovie() {
   const [data, setData] = useState([null]);
-  const [reqId, setId] = useState("");
+  // const [reqId, setId] = useState("");
 
   let { id } = useParams();
 
@@ -24,18 +17,13 @@ function Smovie() {
 
   useEffect(() => {
     fetchItems();
-  }, []);
+  });
 
   console.log(id);
 
-  var url = "http://localhost:3001/movies/" + id;
+  var url = "http://169.254.212.69:3001/movies/" + id;
 
-  var imgurl = "http://localhost:3001/image/" + data.imdb_id;
-
-  var genres = data.genre;
-  // genres = genres.split(',');
-  // console.log(data.genre);
-  // console.log(url);
+  var imgurl = "http://169.254.212.69:3001/image/" + data.imdb_id;
 
   const fetchItems = async () => {
     // setData(null);
@@ -48,9 +36,6 @@ function Smovie() {
   if (id !== data.imdb_id) {
     fetchItems();
   }
-  //   console.log(data);
-
-  // console.log(useState.data);
   if (data === null) {
     return <p>Loading data...</p>;
   }
@@ -59,6 +44,7 @@ function Smovie() {
       <Container className="">
         {data ? (
           <SMovCard
+            id={id}
             imgurl={imgurl}
             title={data.title}
             rating={data.rating}
@@ -67,6 +53,7 @@ function Smovie() {
             summary={data.summary}
             stars={data.actors}
             type={data.type}
+            local_path={data.local_path}
           />
         ) : (
           ""

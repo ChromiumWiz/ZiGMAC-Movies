@@ -17,7 +17,7 @@ function Recent() {
 
   const fetchItemsMovies = async () => {
     const data = await fetch(
-      "http://localhost:3001/movies?sort=recent&limit=18&offset=0&type=movie"
+      "http://169.254.212.69:3001/movies?sort=recent&limit=18&offset=0&type=movie"
     );
     const items = await data.json();
     // console.log(items);
@@ -26,7 +26,7 @@ function Recent() {
 
   const fetchItemsTv = async () => {
     const data = await fetch(
-      "http://localhost:3001/movies?sort=recent&limit=18&offset=0&type=series"
+      "http://169.254.212.69:3001/movies?sort=recent&limit=18&offset=0&type=series"
     );
     const items = await data.json();
     // console.log(items);

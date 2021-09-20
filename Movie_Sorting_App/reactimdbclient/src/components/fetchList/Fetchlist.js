@@ -60,7 +60,7 @@ function Fetchlist(type) {
   }
 
   useEffect(() => {
-    fetch("http://localhost:3001/movies?sort=id&type=" + type2)
+    fetch("http://169.254.212.69:3001/movies?sort=id&type=" + type2)
       .then((response) => response.json())
       .then((json) => setData(json));
   }, []);
@@ -75,7 +75,7 @@ function Fetchlist(type) {
       gens = g.toString();
     }
     var url =
-      "http://localhost:3001/movies?sort=id&type=" +
+      "http://169.254.212.69:3001/movies?sort=id&type=" +
       type2 +
       "&genre=" +
       gens +

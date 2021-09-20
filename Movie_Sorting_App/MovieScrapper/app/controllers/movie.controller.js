@@ -235,7 +235,10 @@ exports.checkFetch = (res) => {
     var x = [];
     for (var title of titles) {
       // console.log(local_title.local_title);
-      var mraw = title.local_title + "|" + title.id;
+      var lTitle = title.local_title;
+      lTitle = lTitle.split("-");
+      lTitle = lTitle[2];
+      var mraw = lTitle + "|" + title.id;
       x.push(mraw);
     }
 
@@ -251,40 +254,62 @@ exports.getDirectoriesRecursive = (res) => {
   var options = { symlinks: "follow" };
   var results = [];
   var basePath = "F:/sym";
+
   var files = jetpack.inspectTree(basePath, options);
-  var rg = "[zigmacmov]";
-  var rg2 = "-[zigfetched]-";
+
+  var rg = "[Nmov]";
   var children = files.children;
   console.log(children);
-
-  // for (var child in children) {
-  //   console.log(child);
-  // }
 
   Object.entries(children).forEach((entry) => {
     const [key, value] = entry;
     entry.shift();
     var str = entry[0].name;
     if (str.includes(rg)) {
-      // console.log(str);
-      if (!str.includes(rg2)) {
-        var file_name = str.split("-");
-        file_name = file_name[0] + "-[zigfetched]-" + file_name[1];
+      // if (!str.includes(rg2)) {
+      // var file_name = str.split("-");
+      file_name = str.replace("[Nmov]", "[mov]");
 
-        //
-        entry[0].name = file_name;
-        var file_path = basePath + "/" + str;
+      //
+      entry[0].name = file_name;
+      var file_path = basePath + "/" + str;
 
-        Movie.addLocal(entry, file_path, basePath);
-
-        // jetpack.rename(file_path, file_name);
-        // console.log(file_name);
-      }
+      Movie.addLocal(entry, file_path, basePath);
+      // }
     }
     results.push(entry);
   });
 
   return results;
+};
+
+exports.checkDir = (req) => {
+  // console.log(jetpack.exists("D:"));
+  if (jetpack.exists("D:/Movies")) {
+    // console.log(jetpack.exists("F:/"));
+    var list = jetpack.inspectTree("D:/Movies");
+    // console.log(list);
+    // return "Directory exists";
+    return list;
+  }
+};
+
+exports.symCreate = (req) => {
+  // console.log(req.link_dest);
+  var folderList = jetpack.inspectTree(req.file_dest);
+  console.log("folders: " + folderList);
+  var movies = folderList.children;
+
+  for (var movie in movies) {
+    console.log("movie: " + movies[movie].name);
+
+    var symPath = req.link_dest + "\\" + movies[movie].name;
+    var filePath = req.file_dest + "\\" + movies[movie].name;
+    jetpack.symlink(symPath, filePath);
+  }
+
+  // console.log(folderList.children);
+  return folderList;
 };
 
 // Update a movie identified by the movieId in the request
