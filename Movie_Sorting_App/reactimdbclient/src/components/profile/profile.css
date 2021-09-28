@@ -1,0 +1,51 @@
+.profileButton{
+    position: fixed;
+    height: 50px;
+    width: 50px;
+    top: 20px;
+    right: 5px;
+    z-index: 97;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 0;
+    text-align: center;
+    line-height: 15px;
+}
+.profileButton BUTTON{
+    color: green !important;
+}
+.profileContainer{
+    display: block;
+}
+.overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.0);
+    z-index: 98;
+}
+.profileWrapper{
+    display: inline-block;
+    width: 250px;
+    height: auto;
+    position: fixed;
+    right: 5px;
+    top: 80px;
+    float: none;
+    background-color: #fff;
+    z-index: 99;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+}
+.profileWrapper p{
+    text-align: left;
+}
+.logoutButton{
+    float: none;
+    display: inline-block;
+    color:red !important;
+    background-color: rgba(255, 0, 0, 0.363) !important;
+}

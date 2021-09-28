@@ -20,18 +20,18 @@ app.use(express.urlencoded()); // to support URL-encoded bodies
 // app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(bodyParser.json());
 
-// app.get("/sym", function (req, res) {
-//   res.sendFile("views/sym.html", { root: "./app" });
-// });
+app.get("/sym", function (req, res) {
+  res.sendFile("views/sym.html", { root: "./app" });
+});
 
-// app.post("/sym/create", (req, res) => {
-//   // var result = movies.checkDir(req);
-//   console.log(req.body.file_dest);
-//   // var result = movies.symCreate(req);
-//   // res.json(result);
-//   res.json({ msg: "success" });
-//   // return "success";
-// });
+app.post("/sym/create", (req, res) => {
+  var result = movies.checkDir(req);
+  console.log(req.body.file_dest);
+  var result = movies.symCreate(req.body);
+  res.json(result);
+  // res.json({ msg: "success" });
+  // return "success";
+});
 
 require("./app/routes/movie.routes.js")(app);
 

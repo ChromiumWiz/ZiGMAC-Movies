@@ -16,7 +16,9 @@ function Smovie() {
   // setId(id);
 
   useEffect(() => {
-    fetchItems();
+    if (!data.id) {
+      fetchItems();
+    }
   });
 
   console.log(id);
@@ -25,17 +27,21 @@ function Smovie() {
 
   var imgurl = "http://169.254.212.69:3001/image/" + data.imdb_id;
 
-  const fetchItems = async () => {
+  const fetchItems = () => {
     // setData(null);
-    const data = await fetch(url);
-    const items = await data.json();
-    console.log(items);
-    setData(items);
+    // const data = await fetch(url);
+    // const items = await data.json();
+    fetch(url)
+      .then((response) => response.json())
+      .then((items) => {
+        setData(items);
+      });
+    // console.log(items);
   };
 
-  if (id !== data.imdb_id) {
-    fetchItems();
-  }
+  // if (id !== data.imdb_id) {
+  //   fetchItems();
+  // }
   if (data === null) {
     return <p>Loading data...</p>;
   }

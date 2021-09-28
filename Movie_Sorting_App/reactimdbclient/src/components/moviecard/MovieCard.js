@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Col, Image } from "react-bootstrap";
+import React from "react";
+import { Image } from "react-bootstrap";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./moviecard.css";
 import { Link } from "react-router-dom";

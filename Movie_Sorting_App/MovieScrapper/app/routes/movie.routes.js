@@ -1,5 +1,6 @@
 module.exports = (app) => {
   const movies = require("../controllers/movie.controller.js");
+  const cards = require("../controllers/scratchCards.controller.js");
 
   // simple route
   // app.get("/", (req, res) => {
@@ -61,4 +62,16 @@ module.exports = (app) => {
     res.json({ msg: "success", result: result });
     // return "success";
   });
+
+  app.get("/scratch/", function (req, res) {
+    res.sendFile("views/scratch.html", { root: "./app" });
+  });
+
+  // app.post("/cardcreate/", (req, res) => {
+  //   // console.log(req.body);
+  //   cards.createCard(req.body, (err, data) => {
+  //     console.log(data);
+  //   });
+  // });
+  app.post("/cardcreate/", cards.createCard);
 };

@@ -8,17 +8,18 @@ import Smovie from "./components/smovie/Smovie";
 import DownloadMovie from "./components/downloadMovie/DownloadMovie";
 import Tv from "./components/tv/Tv";
 import SearchPage from "./components/searchPage/SearchPage";
+import Login from "./components/login/Login";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  useParams,
   withRouter,
 } from "react-router-dom";
 
 function App() {
   return (
     <Router>
+      <Login />
       <div
         className="App"
         style={{
@@ -27,6 +28,7 @@ function App() {
         }}
       >
         <Nav />
+
         {/* <SearchF /> */}
         <div className="clearfix marginTop"></div>
         <Switch>

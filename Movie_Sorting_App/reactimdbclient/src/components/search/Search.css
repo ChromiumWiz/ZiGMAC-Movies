@@ -50,15 +50,15 @@ background-color: transparent;
 .searchText label{
   color:rgba(255, 255, 255, 0.5);
 }
-.MuiFormLabel-root.Mui-focused{
+.searchText .MuiFormLabel-root.Mui-focused{
   color:#fff !important;
 }
-.MuiInput-underline:before{
+.searchText .MuiInput-underline:before{
   border-bottom-color: rgba(255, 255, 255, 0.5) !important;
 }
-.MuiInput-underline:after{
+.searchText .MuiInput-underline:after{
   border-bottom-color: #fff !important;
 }
-.MuiInputBase-input{
+.searchText .MuiInputBase-input{
   color:#fff !important;
 }

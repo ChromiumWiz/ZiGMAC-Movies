@@ -6,6 +6,9 @@ require("es6-promise").polyfill();
 require("isomorphic-fetch");
 
 const Movie = require("../models/movie.model.js");
+const AuthUser = require("../models/authuser.model.js");
+const Download = require("../models/download.model.js");
+const { json } = require("express");
 
 // Create and Save a new movie
 exports.create = (req, res) => {
@@ -157,44 +160,204 @@ exports.searchCount = (req, res) => {
 exports.createToken = (reqest, res) => {
   console.log(reqest.body);
 
-  var filePath = reqest.body.path;
-  console.log(filePath);
-  var uuid = uuidv4();
-  console.log(uuid);
+  var session = reqest.body.session;
+  // var sessionCount = null;
+  //check if the session sent from ui exist
+  AuthUser.sessionCount(session, (err, resu) => {
+    if (err) {
+      console.log(err);
+    }
+    // console.log("session count");
+    // console.log(res);
 
-  var post_data = JSON.stringify({ token: uuid, path: filePath, ttl: "30" });
+    //if session exist
+    if (resu) {
+      var movieVal = 10;
+      console.log("milli: " + Date.now());
+      var basePath = reqest.body.basePath;
+      var filePath = basePath + "/" + reqest.body.path;
 
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Length": Buffer.byteLength(post_data),
-      // Host: "http://169.254.212.69:3001/",
-      secret: "abcdefgh",
-    },
-    body: post_data,
-  };
-  fetch(
-    "http://169.254.212.69:8888/services/files/createsession/",
-    requestOptions
-  ).then((response) => {
-    if (response.ok) {
-      var resData = JSON.stringify({
-        status: response.ok,
-        token: uuid,
-        path: filePath,
+      console.log(basePath);
+      var uuid = uuidv4();
+      console.log(uuid);
+      var setTtl = 30;
+      var ttlEx = setTtl * 6000;
+
+      var ttl = Date.now() + ttlEx;
+
+      //get user profile id using session
+      AuthUser.getProfile(session, (err, resPro) => {
+        if (err) {
+          console.log(err);
+        } else {
+          var userId = resPro.id;
+          //using user data check if a valid token exist
+          Download.tokenCount(userId, basePath, (err, resCount) => {
+            if (err) {
+              console.log(err);
+            } else {
+              //if token exist
+              if (resCount) {
+                Download.getToken(userId, basePath, (err, resToken) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log(resToken);
+                    var tokenExist = resToken.token;
+                    var tokenTTL = resToken.ttl;
+                    var timeNow = Date.now();
+                    //check if token expired
+                    if (tokenTTL < timeNow) {
+                      Download.deleteToken(
+                        resToken.id,
+                        (err, resTokenDelete) => {
+                          if (err) {
+                            console.log(err);
+                          } else {
+                            var resStatus = false;
+                            var resData = JSON.stringify({
+                              status: resStatus,
+                              token: "TOKEN_EXPIRED",
+                              path: filePath,
+                            });
+                            // console.log("Token accepted");
+                            res.json(resData);
+                          }
+                        }
+                      );
+                    } else {
+                      //if token is valid
+                      console.log("sending token" + tokenExist);
+                      var resStatus = true;
+                      var resData = JSON.stringify({
+                        status: resStatus,
+                        token: tokenExist,
+                        path: filePath,
+                      });
+                      // console.log("Token accepted");
+                      res.json(resData);
+                      // res.send(resData);
+                    }
+                  }
+                });
+              } else {
+                AuthUser.getBalance(session, (err, resBalance) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    if (resBalance > movieVal) {
+                      // AuthUser.updateBalance(movieVal);
+
+                      Download.create(
+                        userId,
+                        uuid,
+                        basePath,
+                        ttl,
+                        (err, resCreate) => {
+                          console.log("Create new token & record");
+                          if (err) {
+                            console.log(err);
+                          } else {
+                            if (resCreate.data.insert_id) {
+                              AuthUser.updateBalance(session, movieVal);
+                              console.log(
+                                "insert id : " + resCreate.data.insert_id
+                              );
+                              var post_data = JSON.stringify({
+                                token: uuid,
+                                path: basePath,
+                                ttl: setTtl,
+                              });
+
+                              const requestOptions = {
+                                method: "POST",
+                                headers: {
+                                  "Content-Type": "application/json",
+                                  "Content-Length":
+                                    Buffer.byteLength(post_data),
+                                  // Host: "http://169.254.212.69:3001/",
+                                  secret: "abcdefgh",
+                                },
+                                body: post_data,
+                              };
+                              fetch(
+                                "http://169.254.212.69:8888/services/files/createsession/",
+                                requestOptions
+                              ).then((response) => {
+                                if (response.ok) {
+                                  var resData = JSON.stringify({
+                                    status: response.ok,
+                                    token: uuid,
+                                    path: filePath,
+                                  });
+                                  // console.log("Token accepted");
+                                  res.json(resData);
+                                } else {
+                                  var resData = JSON.stringify({
+                                    status: false,
+                                    token: uuid,
+                                    path: filePath,
+                                  });
+                                  res.send(resData);
+                                }
+                              });
+                            }
+                          }
+                        }
+                      );
+                    }
+                  }
+                });
+              }
+            }
+          });
+        }
       });
-      // console.log("Token accepted");
-      res.json(resData);
-    } else {
-      var resData = JSON.stringify({
-        status: false,
-        token: uuid,
-        path: filePath,
-      });
-      res.send(resData);
     }
   });
+
+  // var basePath = reqest.body.basePath;
+  // var filePath = basePath + "/" + reqest.body.path;
+
+  // console.log(basePath);
+  // var uuid = uuidv4();
+  // console.log(uuid);
+
+  // var ttl = 30;
+
+  // var post_data = JSON.stringify({ token: uuid, path: basePath, ttl: ttl });
+
+  // const requestOptions = {
+  //   method: "POST",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //     "Content-Length": Buffer.byteLength(post_data),
+  //     // Host: "http://169.254.212.69:3001/",
+  //     secret: "abcdefgh",
+  //   },
+  //   body: post_data,
+  // };
+  // fetch(
+  //   "http://169.254.212.69:8888/services/files/createsession/",
+  //   requestOptions
+  // ).then((response) => {
+  //   if (response.ok) {
+  //     var resData = JSON.stringify({
+  //       status: response.ok,
+  //       token: uuid,
+  //       path: filePath,
+  //     });
+  //     // console.log("Token accepted");
+  //     res.json(resData);
+  //   } else {
+  //     var resData = JSON.stringify({
+  //       status: false,
+  //       token: uuid,
+  //       path: filePath,
+  //     });
+  //     res.send(resData);
+  //   }
+  // });
 };
 
 // Update a movie identified by the movieId in the request

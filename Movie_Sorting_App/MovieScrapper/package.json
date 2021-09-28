@@ -13,9 +13,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "bcrypt": "^5.0.1",
     "cheerio": "^1.0.0-rc.5",
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
+    "flakeid": "^1.0.0",
     "fs": "0.0.1-security",
     "fs-jetpack": "^4.1.1",
     "list-react-files": "^0.2.0",
@@ -23,6 +26,7 @@
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.7",
     "request": "^2.88.2",
-    "request-promise-native": "^1.0.9"
+    "request-promise-native": "^1.0.9",
+    "uuid-int": "^3.1.0"
   }
 }

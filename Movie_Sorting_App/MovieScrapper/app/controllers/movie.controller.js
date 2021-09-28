@@ -285,9 +285,9 @@ exports.getDirectoriesRecursive = (res) => {
 
 exports.checkDir = (req) => {
   // console.log(jetpack.exists("D:"));
-  if (jetpack.exists("D:/Movies")) {
+  if (jetpack.exists(req.body.file_dest)) {
     // console.log(jetpack.exists("F:/"));
-    var list = jetpack.inspectTree("D:/Movies");
+    var list = jetpack.inspectTree(req.body.file_dest);
     // console.log(list);
     // return "Directory exists";
     return list;
