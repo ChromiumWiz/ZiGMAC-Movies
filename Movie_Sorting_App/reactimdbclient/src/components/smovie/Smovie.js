@@ -4,6 +4,7 @@ import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./../moviecard/moviecard.css";
 import { useParams } from "react-router-dom";
 import SMovCard from "./SMovCard";
+import  {API_HOST, CLIENT_HOST} from "../../constants/HOSTS_CONSTANT";
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
 
@@ -23,9 +24,9 @@ function Smovie() {
 
   console.log(id);
 
-  var url = "http://169.254.212.69:3001/movies/" + id;
+  var url = API_HOST+"/movies/" + id;
 
-  var imgurl = "http://169.254.212.69:3001/image/" + data.imdb_id;
+  var imgurl = API_HOST+"/image/" + data.imdb_id;
 
   const fetchItems = () => {
     // setData(null);

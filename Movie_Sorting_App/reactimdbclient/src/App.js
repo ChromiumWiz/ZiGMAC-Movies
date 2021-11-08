@@ -15,8 +15,11 @@ import {
   Route,
   withRouter,
 } from "react-router-dom";
+ 
 
 function App() {
+  // const backgroundImage = require("./assets/images/4L75tkWVDgKtGe7kfoEGP6.jpg");
+  
   return (
     <Router>
       <Login />
@@ -24,7 +27,7 @@ function App() {
         className="App"
         style={{
           backgroundImage:
-            "url(https://cdn.mos.cms.futurecdn.net/4L75tkWVDgKtGe7kfoEGP6.jpg)",
+            "url(/images/4L75tkWVDgKtGe7kfoEGP6.jpg)",
         }}
       >
         <Nav />

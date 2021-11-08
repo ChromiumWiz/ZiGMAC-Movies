@@ -41,7 +41,12 @@ module.exports = (app) => {
 
   // app.get("/image/:id", movies.image);
 
-  app.get("/imdbfetch", movies.checkFetch);
+  app.get("/imdbfetch", function (req, res) {
+    movies.checkFetch(req, (result) => {
+      res.send("Data fetched");
+    });
+    
+  });
 
   app.get("/sym", function (req, res) {
     res.sendFile("views/sym.html", { root: "./app" });

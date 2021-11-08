@@ -74,46 +74,72 @@ Movie.addLocal = (entry, basePath, rootPath) => {
 Movie.update = (newMovie, localId, result) => {
   console.log("update: " + newMovie);
   console.log("local_id: " + localId);
-  sql.query(
-    "UPDATE `movie_data` SET `imdb_id`='" +
-      newMovie.imdb_id +
-      "',`title`='" +
-      newMovie.title +
-      "',`runtime`='" +
-      newMovie.runtime +
-      "',`date_published`='" +
-      newMovie.date_published +
-      "',`genre`='" +
-      newMovie.genre +
-      "',`img_url`='" +
-      newMovie.img_url +
-      "',`img_path`='" +
-      newMovie.img_path +
-      "',`summary`='" +
-      newMovie.summary +
-      "',`actors`='" +
-      newMovie.actors +
-      "',`rating`='" +
-      newMovie.rating +
-      "',`type`='" +
-      newMovie.type +
-      "',`imdb_fetch`='1' WHERE id = " +
-      localId,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-      if (res.length) {
-        console.log("data fetched: ", res);
-        result(null, res);
-        return;
-      }
 
-      // result({ kind: "not_found" }, null);
+  if(newMovie.title)
+  {
+    var title =newMovie.title;
+    title = title.replace(/[^\w\s]/gi, "");
+  
+    var summary = newMovie.summary;
+    summary = summary.replace(/[^\w\s]/gi, "");
+  
+    var actors = newMovie.actors;
+    actors = actors.replace(/[^\w\s]/gi, "");
+  
+    var rating = "";
+    if(newMovie.rating != 'N/A' )
+    {
+      rating = newMovie.rating;
     }
-  );
+    else{
+      rating = 0;
+    }
+    sql.query(
+      "UPDATE `movie_data` SET `imdb_id`='" +
+        newMovie.imdb_id +
+        "',`title`='" +
+        title +
+        "',`runtime`='" +
+        newMovie.runtime +
+        "',`date_published`='" +
+        newMovie.date_published +
+        "',`genre`='" +
+        newMovie.genre +
+        "',`img_url`='" +
+        newMovie.img_url +
+        "',`img_path`='" +
+        newMovie.img_path +
+        "',`summary`='" +
+        summary +
+        "',`actors`='" +
+        actors +
+        "',`rating`='" +
+        rating +
+        "',`type`='" +
+        newMovie.type +
+        "',`imdb_fetch`='1' WHERE id = " +
+        localId,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          // result(err, null);
+          return;
+        }
+        if (res.length) {
+          console.log("data fetched: ", res);
+          result(null, res);
+          return;
+        }
+  
+        // result({ kind: "not_found" }, null);
+      }
+    );
+  }
+  else{
+    Movie.delete(localId);
+  }
+  
+  
 };
 
 Movie.findById = (id, result) => {
@@ -187,5 +213,15 @@ Movie.imdbFetch = (result) => {
     }
   );
 };
+
+Movie.delete = (id) => {
+  sql.query("DELETE FROM `movie_data` WHERE id='"+id+"'",
+  (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+    }
+  }
+  );
+}
 
 module.exports = Movie;

@@ -180,6 +180,7 @@ exports.imdbIds = async (req, res) => {
 
   if (titles.indexOf(",") > -1) {
     // titles = req.body.title;
+    
     titles = titles.split(",");
 
     for (var title of titles) {
@@ -190,8 +191,21 @@ exports.imdbIds = async (req, res) => {
       var mid = mraw[1];
 
       mov = await fetchData(mtitle);
-      mov = mov + "|" + mid;
-      imdbIds.push(mov);
+
+      if(!mov)
+      {
+          console.log("No imdb: "+mid);
+          Movie.delete(mid);
+      }
+      else{
+        mov = mov + "|" + mid;
+     
+        imdbIds.push(mov);
+      }
+
+        
+
+      
       // console.log(imdbId);
     }
   } else {
@@ -206,20 +220,40 @@ exports.imdbIds = async (req, res) => {
     mov = mov + "|" + mid;
     imdbIds.push(mov);
   }
-
+console.log("imdb id");
+console.log(imdbIds);
   for (var rawd of imdbIds) {
     var idraw = rawd.split("|");
     var imdbId = idraw[0];
     var id = idraw[1];
-    var mov = await scraper.getMovie(imdbId, id);
-    console.log(mov);
-    movies.push(mov);
+
+    try{
+      var mov = await scraper.getMovie(imdbId, id);
+ 
+
+      console.log("scrap movie");
+      console.log(mov);
+      movies.push(mov);
+
+
+    
+    }catch(e){
+      console.log(e);
+    };
+    
+    
+    
   }
   // res.send(imdbIds);
-  res.send(movies);
+// console.log(movies);
+  // res.send(movies);
 };
 
 function fetchData(title) {
+
+  title = title.replace(/\./g,' ');
+  
+  console.log("api fetch: "+title);
   return fetch("http://localhost:3002/title/" + title)
     .then((res) => res.json())
     .then((json) => {
@@ -228,7 +262,7 @@ function fetchData(title) {
     });
 }
 
-exports.checkFetch = (res) => {
+exports.checkFetch = (req,res) => {
   Movie.imdbFetch((err, titles) => {
     // console.log(data);
 
@@ -238,6 +272,7 @@ exports.checkFetch = (res) => {
       var lTitle = title.local_title;
       lTitle = lTitle.split("-");
       lTitle = lTitle[2];
+      lTitle = lTitle.replace(/\./g,' ');
       var mraw = lTitle + "|" + title.id;
       x.push(mraw);
     }
@@ -251,9 +286,9 @@ exports.checkFetch = (res) => {
 exports.filefetch = (res) => {};
 
 exports.getDirectoriesRecursive = (res) => {
-  var options = { symlinks: "follow" };
+  var options = { };
   var results = [];
-  var basePath = "F:/sym";
+  var basePath = "I:/Movies";
 
   var files = jetpack.inspectTree(basePath, options);
 

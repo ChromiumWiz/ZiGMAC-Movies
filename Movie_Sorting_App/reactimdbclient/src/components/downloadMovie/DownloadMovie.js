@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import DMovCard from "./DMovCard";
 import { useCookies } from "react-cookie";
 import Fab from "@material-ui/core/Fab";
+import  {API_HOST, CLIENT_HOST, FILE_SERVER_HOST} from "../../constants/HOSTS_CONSTANT";
 require("es6-promise").polyfill();
 require("isomorphic-fetch");
 
@@ -28,13 +29,13 @@ function DownloadMovie() {
 
   console.log(id);
 
-  var url = "http://169.254.212.69:3001/movies/" + id;
+  var url = API_HOST+"/movies/" + id;
 
-  var imgurl = "http://169.254.212.69:3001/image/" + data.imdb_id;
+  var imgurl = API_HOST+"/image/" + data.imdb_id;
 
   var encoded = encodeURI(data.local_title);
   var filesUrl =
-    "http://169.254.212.69:8888/services/files/list/" + encoded + "/";
+  FILE_SERVER_HOST+"/services/files/list/" + encoded + "/";
 
   const fetchItems = async () => {
     const data = await fetch(url);
@@ -116,11 +117,10 @@ function DownloadMovie() {
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(post_data),
-        Host: "http://169.254.212.69:3000/",
       },
       body: post_data,
     };
-    fetch("http://169.254.212.69:3001/createtoken", requestOptions)
+    fetch(API_HOST+"/createtoken", requestOptions)
       .then((response) => response.json())
       .then((data) => downloadFile(JSON.parse(data)));
     // downloadFile(JSON.parse(data));
@@ -135,7 +135,7 @@ function DownloadMovie() {
       var filePath = encodeURI(data.path);
 
       var url =
-        "http://169.254.212.69:8888/services/files/download/" +
+      FILE_SERVER_HOST+"/services/files/download/" +
         filePath +
         "?token=" +
         data.token;

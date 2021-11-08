@@ -1,0 +1,4 @@
+cd I:\App\ZiGMAC-Movies\Movie_Sorting_App\Powershell
+.\symlink.ps1 -linkfolder "I:\Movies" -basefolder "G:\movies A-Z\A"
+
+0766162684

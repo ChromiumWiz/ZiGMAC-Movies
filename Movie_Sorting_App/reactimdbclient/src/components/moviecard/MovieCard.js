@@ -3,9 +3,10 @@ import { Image } from "react-bootstrap";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./moviecard.css";
 import { Link } from "react-router-dom";
+import  {API_HOST} from "../../constants/HOSTS_CONSTANT";
 
-function MovieCard({ title, imdb_id, id, type }) {
-  const url = "http://169.254.212.69:3001/image/" + imdb_id;
+function MovieCard({ title, imdb_id, id, type, img_path }) {
+  const url = API_HOST+"/image/" + imdb_id;
   var smov = "/movies/" + imdb_id;
   return (
     <div md={4} sm={6} lg={2} className="cardCont">

@@ -91,7 +91,7 @@ exports.image = (req, res) => {
     } else {
       // res.sendFile(req.get('host')+'/'+data.img_path);
       res.sendFile(
-        "F:\\Zigmac\\Web\\MovieDB\\App\\GITHUB\\ZiGMAC-Movies\\Movie_Sorting_App\\MovieScrapper\\images\\posters\\" +
+        "I:\\App\\ZiGMAC-Movies\\Movie_Sorting_App\\MovieScrapper\\images\\posters\\" +
           data.img_path
       );
     }
@@ -281,7 +281,7 @@ exports.createToken = (reqest, res) => {
                                 body: post_data,
                               };
                               fetch(
-                                "http://169.254.212.69:8888/services/files/createsession/",
+                                "http://localhost:8888/services/files/createsession/",
                                 requestOptions
                               ).then((response) => {
                                 if (response.ok) {

@@ -4,6 +4,7 @@ import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import MovieCard from "./../moviecard/MovieCard";
 import { Film, Tv } from "react-bootstrap-icons";
 import "./recent.css";
+import  {API_HOST, CLIENT_HOST} from "../../constants/HOSTS_CONSTANT";
 
 function Recent() {
   useEffect(() => {
@@ -17,7 +18,7 @@ function Recent() {
 
   const fetchItemsMovies = async () => {
     const data = await fetch(
-      "http://169.254.212.69:3001/movies?sort=recent&limit=18&offset=0&type=movie"
+      API_HOST+"/movies?sort=recent&limit=18&offset=0&type=movie"
     );
     const items = await data.json();
     // console.log(items);
@@ -26,7 +27,7 @@ function Recent() {
 
   const fetchItemsTv = async () => {
     const data = await fetch(
-      "http://169.254.212.69:3001/movies?sort=recent&limit=18&offset=0&type=series"
+      API_HOST+"/movies?sort=recent&limit=18&offset=0&type=series"
     );
     const items = await data.json();
     // console.log(items);

@@ -24,6 +24,7 @@ getMovie = async (imdbId, id) => {
 function fetchMovie(rawImdbId, localId) {
   var rawd = rawImdbId.split("|");
   var imdbId = rawd[0];
+  console.log(imdbId);
   var local_path = rawd[1];
   var options = {
     method: "GET",
@@ -38,17 +39,26 @@ function fetchMovie(rawImdbId, localId) {
   return axios
     .request(options)
     .then(function (response) {
-      // console.log(response.data);
+      console.log(response.data);
       var m = response.data;
       var r = m.Released;
       var rd = "";
-      var released = r.split(" ")[1];
+      var released="";
+      if(r)
+      {
+        released = r.split(" ")[1];
       released = month(released);
 
       released = r.split(" ")[2] + "-" + released + "-" + r.split(" ")[0];
 
+      }
+      else{
+        released = "00";
+      }
+
       var download = function (uri, filename, callback) {
         request.head(uri, function (err, res, body) {
+          
           console.log("content-type:", res.headers["content-type"]);
           console.log("content-length:", res.headers["content-length"]);
 
@@ -58,9 +68,20 @@ function fetchMovie(rawImdbId, localId) {
         });
       };
 
-      download(m.Poster, "images/posters/" + m.imdbID + ".jpg", function () {
-        // console.log('done');
-      });
+      var imgUrl = "";
+
+      if(m.Poster != "N/A" && m.Poster)
+      {
+        download(m.Poster, "images/posters/" + m.imdbID + ".jpg", function () {
+          // console.log('done');
+        });
+        imgUrl = m.Poster;
+      }
+      else{
+        imgUrl = "N_A"
+      }
+
+      
 
       const movie = new Movie({
         imdb_id: m.imdbID,

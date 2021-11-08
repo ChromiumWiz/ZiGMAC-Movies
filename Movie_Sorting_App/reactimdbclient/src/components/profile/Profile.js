@@ -7,6 +7,7 @@ import { PersonCircle, Power, PlusCircleFill } from "react-bootstrap-icons";
 import Fab from "@material-ui/core/Fab";
 import TextField from "@material-ui/core/TextField";
 
+import  {API_HOST, CLIENT_HOST} from "../../constants/HOSTS_CONSTANT";
 import { useState, useEffect } from "react";
 
 function Profile(session) {
@@ -37,11 +38,10 @@ function Profile(session) {
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(post_data),
-        Host: "http://169.254.212.69:3000/",
       },
       body: post_data,
     };
-    fetch("http://169.254.212.69:3001/authprofile", requestOptions)
+    fetch(API_HOST+"/authprofile", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         if (data.status) {
@@ -62,11 +62,10 @@ function Profile(session) {
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(post_data),
-        Host: "http://169.254.212.69:3000/",
       },
       body: post_data,
     };
-    fetch("http://169.254.212.69:3001/authlogout", requestOptions)
+    fetch(API_HOST+"/authlogout", requestOptions)
       .then(removeCookie("userlogin", { path: "/" }))
       .then(window.location.reload());
 
@@ -167,11 +166,10 @@ function Profile(session) {
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(post_data),
-        Host: "http://169.254.212.69:3000/",
       },
       body: post_data,
     };
-    fetch("http://169.254.212.69:3001/topup", requestOptions)
+    fetch(API_HOST+"/topup", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         console.log(data.status);

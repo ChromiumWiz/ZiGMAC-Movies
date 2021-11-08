@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import "./login.css";
 import { useCookies } from "react-cookie";
 import Profile from "../profile/Profile";
+import  {API_HOST, CLIENT_HOST} from "../../constants/HOSTS_CONSTANT";
 
 // import { useState } from "react";
 
@@ -41,11 +42,10 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
           "Content-Length": Buffer.byteLength(post_data),
-          Host: "http://169.254.212.69:3000/",
         },
         body: post_data,
       };
-      fetch("http://169.254.212.69:3001/authregister", requestOptions)
+      fetch(API_HOST+"/authregister", requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.status) {
@@ -75,11 +75,10 @@ function Login() {
       headers: {
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(post_data),
-        Host: "http://169.254.212.69:3000/",
       },
       body: post_data,
     };
-    fetch("http://169.254.212.69:3001/authlogin", requestOptions)
+    fetch(API_HOST+"/authlogin", requestOptions)
       .then((response) => response.json())
       .then((data) => {
         if (data.status) {
@@ -115,11 +114,10 @@ function Login() {
         headers: {
           "Content-Type": "application/json",
           "Content-Length": Buffer.byteLength(post_data),
-          Host: "http://169.254.212.69:3000/",
         },
         body: post_data,
       };
-      fetch("http://169.254.212.69:3001/authsession", requestOptions)
+      fetch(API_HOST+"/authsession", requestOptions)
         .then((response) => response.json())
         .then((data) => {
           if (data.status) {

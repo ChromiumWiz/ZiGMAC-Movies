@@ -84,7 +84,7 @@ Movie.getAll = (req, result) => {
   if (req.query.sort) {
     sort = req.query.sort;
     if (sort == "recent") {
-      sq = "ORDER BY created_time DESC ";
+      sq = "ORDER BY id DESC ";
     } else if (sort == "id") {
       sq = "ORDER BY id ";
     }

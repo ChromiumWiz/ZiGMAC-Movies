@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from "@material-ui/core/styles";
 import "./../searchPage/searchpage.css";
+import  {API_HOST} from "../../constants/HOSTS_CONSTANT";
 import {
   ArrowLeftCircleFill,
   ArrowRightCircleFill,
@@ -28,26 +29,31 @@ function FetchlistAlt(type) {
 
   const classes = useStyles();
 
+  const sort = "recent";
+  const limit = 10;
+  const stOff = 10;
+
   useEffect(() => {
     fetch(
-      "http://169.254.212.69:3001/movies?sort=id&type=" + type2 + "&limit=10"
+      API_HOST+"/movies?sort="+sort+"&type=" + type2 + "&limit=" + limit
     )
       .then((response) => response.json())
       .then((json) => setData(json))
       .then(setOff(10));
+      console.log(data);
   }, []);
 
   useEffect(() => {
-    fetch("http://169.254.212.69:3001/countmovie?type=movie")
+    fetch(API_HOST+"/countmovie?type=movie")
       .then((response) => response.json())
       .then((json) => setCount(json));
   }, []);
 
   function nextPage(offS) {
     var url =
-      "http://169.254.212.69:3001/movies?sort=id&type=" +
+      API_HOST+"/movies?sort="+sort+"&type=" +
       type2 +
-      "&limit=10&offset=" +
+      "&limit="+limit+"&offset=" +
       offS +
       "";
     // console.log(offS);
@@ -62,9 +68,9 @@ function FetchlistAlt(type) {
     var ofp = offset - 20;
     var ofn = offset - 10;
     var url =
-      "http://169.254.212.69:3001/movies?sort=id&type=" +
+      API_HOST+"/movies?sort="+sort+"&type=" +
       type2 +
-      "&limit=10&offset=" +
+      "&limit="+limit+"&offset=" +
       ofp +
       "";
     // console.log(offS);
