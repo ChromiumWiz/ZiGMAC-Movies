@@ -1,0 +1,3 @@
+cd I:\App\ZiGMAC-Movies\Movie_Sorting_App\reactimdbclient
+
+.\start.ps1

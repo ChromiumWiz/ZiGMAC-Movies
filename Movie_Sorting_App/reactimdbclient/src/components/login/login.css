@@ -1,0 +1,55 @@
+.loginOverlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 98;
+}
+.loginWrapper{
+    display: inline-block;
+    width: 300px;
+    height: auto;
+    position: fixed;
+    left: calc(50% - 150px);
+    top: calc(50% - 150px);
+    float: none;
+    background-color: #fff;
+    z-index: 99;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+}
+.loginContainer{
+    display: block;
+}
+.loginHide{
+    display: none;
+}
+.loginButton{
+    position: fixed;
+    height: 50px;
+    width: 50px;
+    top: 20px;
+    right: 5px;
+    z-index: 97;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 0;
+    text-align: center;
+    line-height: 15px;
+}
+.linkSpan{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.loginError{
+    color:red;
+    font-size: 12px;
+}
+.signupMessage{
+    color: green;
+    font-size: 12px;
+}

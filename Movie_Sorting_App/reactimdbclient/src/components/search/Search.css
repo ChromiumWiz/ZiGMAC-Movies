@@ -1,0 +1,64 @@
+.modal-backdrop.show{
+  opacity: 0.5;
+}
+.modal-dialog{
+  width: 320px;
+max-width: none;
+height: 100%;
+margin: 0;
+background-color: transparent;
+}
+.modal-dialog .modal-content {
+  height: 70px;
+  border: 0;
+  border-radius: 0;
+  padding: 45px 15px;
+  background-color: transparent;
+}
+.makeStyles-root-1{
+  position: relative;
+  top: calc(50% - 25px);
+}
+.searchText{
+  width:calc(100% - 35px);
+}
+.serach-btn{
+  display: block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  float: right;
+}
+.send-btn{
+  color: #fff;
+}
+.serach-btn-2{
+  display: block;
+  width: 30px;
+  height: 60px;
+  cursor: pointer;
+  float: right;
+  position: relative;
+}
+.serach-btn-2 svg{
+  position: relative;
+  top: calc(50% - 10px);
+}
+.searchText{
+  color: #fff;
+}
+.searchText label{
+  color:rgba(255, 255, 255, 0.5);
+}
+.searchText .MuiFormLabel-root.Mui-focused{
+  color:#fff !important;
+}
+.searchText .MuiInput-underline:before{
+  border-bottom-color: rgba(255, 255, 255, 0.5) !important;
+}
+.searchText .MuiInput-underline:after{
+  border-bottom-color: #fff !important;
+}
+.searchText .MuiInputBase-input{
+  color:#fff !important;
+}

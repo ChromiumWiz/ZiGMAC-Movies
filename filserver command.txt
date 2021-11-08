@@ -1,0 +1,2 @@
+gradle clean build test --stacktrace
+java -jar build/libs/file-server-1.2.0-SNAPSHOT.jar --spring.config.location=file:./src/main/resources/application.yml
