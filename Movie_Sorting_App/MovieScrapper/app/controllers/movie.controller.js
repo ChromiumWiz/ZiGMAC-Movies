@@ -29,7 +29,7 @@ exports.findOne = (req, res) => {
     url: "https://movie-database-imdb-alternative.p.rapidapi.com/",
     params: { i: req.params.imdbId, type: "movie", r: "json", plot: "full" },
     headers: {
-      "x-rapidapi-key": "8c87de996dmsh4992e22e75bc613p17709ajsn731dd34b2932",
+      "x-rapidapi-key": "2fd0f4fbc6msh3f1d057c17b3fe7p1c0028jsn8e1287a2efb9",
       "x-rapidapi-host": "movie-database-imdb-alternative.p.rapidapi.com",
     },
   };
@@ -98,19 +98,20 @@ exports.searchTitle = (req, res) => {
   var options = {
     method: "GET",
     url:
-      "https://imdb-internet-movie-database-unofficial.p.rapidapi.com/film/" +
-      imdbTitle,
+      "https://movie-database-alternative.p.rapidapi.com/?s=" +
+      imdbTitle+"&r=json&page=1",
     headers: {
-      "x-rapidapi-key": "8c87de996dmsh4992e22e75bc613p17709ajsn731dd34b2932",
+      "x-rapidapi-key": "2fd0f4fbc6msh3f1d057c17b3fe7p1c0028jsn8e1287a2efb9",
       "x-rapidapi-host":
-        "imdb-internet-movie-database-unofficial.p.rapidapi.com",
+        "movie-database-alternative.p.rapidapi.com",
     },
   };
 
   axios
     .request(options)
     .then(function (response) {
-      res.send(response.data);
+      
+      res.send(response.data.Search[0]);
     })
     .catch(function (error) {
       console.error(error);
@@ -256,9 +257,13 @@ function fetchData(title) {
   console.log("api fetch: "+title);
   return fetch("http://localhost:3002/title/" + title)
     .then((res) => res.json())
-    .then((json) => {
+    .then((res) => {
       // console.log(json);
-      return json.id;
+      var json = JSON.stringify(res);
+      json = JSON.parse(json);
+      console.log(json.imdbID);
+      
+      return json.imdbId;
     });
 }
 
