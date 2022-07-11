@@ -102,7 +102,7 @@ exports.image = (req, res) => {
 
 exports.countMovie = (req, res) => {
   // console.log(req.query.type);
-  Movie.recCount(req.query.type, (err, data) => {
+  Movie.recCount(req.query.type, req.query.genre, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

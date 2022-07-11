@@ -1,4 +1,3 @@
-
 const { resume } = require("./db.js");
 const sql = require("./db.js");
 
@@ -88,6 +87,10 @@ Movie.getAll = (req, result) => {
     } else if (sort == "id") {
       sq = "ORDER BY id ";
     }
+    else if (sort == 'title') 
+    {
+      sq = "ORDER BY title ";
+    }
 
     q = q + sq;
 
@@ -104,7 +107,6 @@ Movie.getAll = (req, result) => {
   if (req.query.offset) {
     offset = req.query.offset;
     lq = "OFFSET " + offset + " ";
-
     q = q + lq;
   }
 
@@ -165,24 +167,47 @@ Movie.findImage = (id, result) => {
   );
 };
 
-Movie.recCount = (type, result) => {
+Movie.recCount = (type, genre, result) => {
   // var type = req.query.type;
-  sql.query(
-    `SELECT COUNT(*) AS mcount FROM movie_data WHERE type = '${type}'`,
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
+  if(genre !== 'All')
+  {
+    console.log('genre', genre);
+    sql.query(
+      `SELECT COUNT(*) AS mcount FROM movie_data WHERE type = '${type}' AND genre LIKE '%${genre}%'`,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+  
+        if (res.length) {
+          console.log(type + "count : ", res[0].mcount);
+          result(null, res[0]);
+          return;
+        }
       }
-
-      if (res.length) {
-        console.log(type + "count : ", res[0].mcount);
-        result(null, res[0]);
-        return;
+    );
+  }
+  else{
+    sql.query(
+      `SELECT COUNT(*) AS mcount FROM movie_data WHERE type = '${type}'`,
+      (err, res) => {
+        if (err) {
+          console.log("error: ", err);
+          result(err, null);
+          return;
+        }
+  
+        if (res.length) {
+          console.log(type + "count : ", res[0].mcount);
+          result(null, res[0]);
+          return;
+        }
       }
-    }
-  );
+    );
+  }
+  
 };
 
 Movie.serach = (sp, ofs, result) => {

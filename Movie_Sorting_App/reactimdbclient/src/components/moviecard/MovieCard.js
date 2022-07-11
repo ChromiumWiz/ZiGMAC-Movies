@@ -7,7 +7,7 @@ import  {API_HOST} from "../../constants/HOSTS_CONSTANT";
 
 function MovieCard({ title, imdb_id, id, type, img_path }) {
   const url = API_HOST+"/image/" + imdb_id;
-  var smov = "/movies/" + imdb_id;
+  var smov = "/movie/" + imdb_id;
   return (
     <div md={4} sm={6} lg={2} className="cardCont">
       <Link to={smov}>

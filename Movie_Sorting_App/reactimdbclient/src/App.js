@@ -36,9 +36,9 @@ function App() {
         <div className="clearfix marginTop"></div>
         <Switch>
           <Route path="/" exact component={withRouter(Recent)} />
-          <Route path="/movies" exact component={withRouter(Movie)} />
+          <Route path="/movies/:page" exact component={withRouter(Movie)} />
           <Route path="/tv" exact component={withRouter(Tv)} />
-          <Route path="/movies/:id" exact component={withRouter(Smovie)} />
+          <Route path="/movie/:id" exact component={withRouter(Smovie)} />
           <Route
             path="/download/:id"
             exact

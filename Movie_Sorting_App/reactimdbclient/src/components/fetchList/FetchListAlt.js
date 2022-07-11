@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
+import { Route, useParams, useHistory } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 import { Container, Row, Col } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from "@material-ui/core/styles";
 import "./../searchPage/searchpage.css";
-import  {API_HOST} from "../../constants/HOSTS_CONSTANT";
+import { API_HOST } from "../../constants/HOSTS_CONSTANT";
 import {
   ArrowLeftCircleFill,
   ArrowRightCircleFill,
@@ -27,62 +31,133 @@ function FetchlistAlt(type) {
 
   const [mCount, setCount] = useState([]);
 
+  const [pageCount, setPageCount] = useState(0);
+
+  const [uPage, setPage] = useState(0);
+
+  const [genre, setGenre] = useState("All");
+
+  const [sort, setSort] = useState("recent");
+  // let {page} = useParams();
   const classes = useStyles();
 
-  const sort = "recent";
-  const limit = 10;
-  const stOff = 10;
+  let history = useHistory();
+
+  // var sort = "recent";
+  var limit = 5;
+  var stOff = 0;
+
+  let { page } = useParams("page");
 
   useEffect(() => {
-    fetch(
-      API_HOST+"/movies?sort="+sort+"&type=" + type2 + "&limit=" + limit
-    )
+    fetch(API_HOST + "/countmovie?type=movie&genre=" + genre)
       .then((response) => response.json())
-      .then((json) => setData(json))
-      .then(setOff(10));
-      console.log(data);
-  }, []);
+      .then((json) => {
+        setCount(json);
+      })
+      .then(() => {});
+  }, [genre]);
 
   useEffect(() => {
-    fetch(API_HOST+"/countmovie?type=movie")
-      .then((response) => response.json())
-      .then((json) => setCount(json));
-  }, []);
+    console.log("mCount", mCount);
+    var mc = mCount.mcount;
+    var pCount = mc / limit;
+    pCount = Math.floor(pCount);
+    // console.log('page count', mc);
+    setPageCount(pCount);
+    setPage(page);
+  }, [mCount]);
 
-  function nextPage(offS) {
+  // useEffect(() => {
+  //   if(page)
+  //   {
+  //     const newOffset = (page * limit) % mCount.mcount;
+  //     setPage(page);
+  //   setOff(newOffset);
+  //   }
+  // },[]);
+
+  useEffect(() => {
     var url =
-      API_HOST+"/movies?sort="+sort+"&type=" +
+      API_HOST +
+      "/movies?sort=" +
+      sort +
+      "&type=" +
       type2 +
-      "&limit="+limit+"&offset=" +
-      offS +
-      "";
-    // console.log(offS);
-    var ofs = offS + 10;
+      "&limit=" +
+      limit +
+      "&offset=" +
+      offset +
+      "&genre=" +
+      genre;
+    console.log("********", url);
     fetch(url)
       .then((response) => response.json())
       .then((json) => setData(json))
-      .then(setOff(ofs));
+      .then(() => {
+        history.push("/movies/" + page);
+      });
+  }, [offset, genre, sort]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * limit) % mCount.mcount;
+    setPage(event.selected);
+    setOff(newOffset);
+  };
+
+  const genreHandle = (e) => {
+    const genreSelected = e.target.value;
+    // console.log("genre-",genreSelected);
+    setGenre(genreSelected);
   }
 
-  function prevPage(offS) {
-    var ofp = offset - 20;
-    var ofn = offset - 10;
-    var url =
-      API_HOST+"/movies?sort="+sort+"&type=" +
-      type2 +
-      "&limit="+limit+"&offset=" +
-      ofp +
-      "";
-    // console.log(offS);
-    // console.log(offset);
-    fetch(url)
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .then(setOff(ofn));
+  const sortHandle = (e) => {
+    const sortH = e.target.value;
+
+    setSort(sortH);
   }
 
   return (
     <Container fluid className="bodyCont">
+      <Row>
+        <Col>
+        <select aria-label="Default select example" onChange={(e) => {genreHandle(e)}} className="inputSelect">
+          <option value="All">All</option>
+          <option value="Action">Action</option>
+          <option value="Adventure">Adventure</option>
+          <option value="Animation">Animation</option>
+          <option value="Biography">Biography</option>
+          <option value="Comedy">Comedy</option>
+          <option value="Crime">Crime</option>
+          <option value="Documentary">Documentary</option>
+          <option value="Drama">Drama</option>
+          <option value="Family">Family</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Film-Noir">Film-Noir</option>
+          <option value="Game-Show">Game-Show</option>
+          <option value="History">History</option>
+          <option value="Horror">Horror</option>
+          <option value="Musical">Musical</option>
+          <option value="Music">Music</option>
+          <option value="Mystery">Mystery</option>
+          <option value="News">News</option>
+          <option value="Reality-TV">Reality-TV</option>
+          <option value="Romance">Romance</option>
+          <option value="Sci-Fi">Sci-Fi</option>
+          <option value="Short">Short</option>
+          <option value="Sport">Sport</option>
+          <option value="Talk-Show">Talk-Show</option>
+          <option value="Thriller">Thriller</option>
+          <option value="War">War</option>
+          <option value="Western">Western</option>
+        </select>
+
+        <select onChange={(e) => {sortHandle(e)}} className="inputSelect">
+          <option value="recent">Recent</option>
+          <option value="title">A-Z</option>
+        </select>
+        </Col>
+      </Row>
       <Row className="cardRow">
         {data.map((item, index) => (
           <MovieCard key={index} {...item} />
@@ -93,23 +168,34 @@ function FetchlistAlt(type) {
 
       <Row>
         <Col>
-          {offset > 10 && (
-            <ArrowLeftCircleFill
-              size="36"
-              onClick={(e) => prevPage(offset)}
-              className="pageArrows"
+          {/* {uPage} */}
+          {mCount ? (
+            <ReactPaginate
+              nextLabel="next >"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              marginPagesDisplayed={1}
+              pageCount={pageCount}
+              previousLabel="< previous"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              breakLabel="..."
+              breakClassName="page-item"
+              breakLinkClassName="page-link"
+              containerClassName="pagination"
+              activeClassName="active"
+              renderOnZeroPageCount={null}
+              // initialPage={1}
             />
-          )}
-          {console.log(mCount.mcount)}
-          {console.log(offset)}
-          {mCount.mcount > offset && (
-            <ArrowRightCircleFill
-              size="36"
-              onClick={(e) => nextPage(offset)}
-              className="pageArrows"
-            />
+          ) : (
+            ""
           )}
         </Col>
+        <div id="container"></div>
       </Row>
       <div className="movSpace"></div>
     </Container>

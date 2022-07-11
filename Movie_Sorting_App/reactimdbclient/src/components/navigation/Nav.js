@@ -17,7 +17,7 @@ function Nav() {
           </li>
         </Link>
 
-        <Link to="/movies">
+        <Link to="/movies/0">
           <li>
             <Film size="20" />
             <span className="navText">Movies</span>
