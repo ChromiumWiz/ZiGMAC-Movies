@@ -91,6 +91,10 @@ Movie.getAll = (req, result) => {
     {
       sq = "ORDER BY title ";
     }
+    else if(sort == 'rating')
+    {
+      sq = "ORDER BY rating DESC ";
+    }
 
     q = q + sq;
 

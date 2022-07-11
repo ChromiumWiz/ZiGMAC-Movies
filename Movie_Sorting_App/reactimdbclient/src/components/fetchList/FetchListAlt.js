@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { Route, useParams, useHistory } from "react-router-dom";
 import ReactPaginate from "react-paginate";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, InputGroup } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from "@material-ui/core/styles";
@@ -109,53 +109,71 @@ function FetchlistAlt(type) {
     const genreSelected = e.target.value;
     // console.log("genre-",genreSelected);
     setGenre(genreSelected);
-  }
+  };
 
   const sortHandle = (e) => {
     const sortH = e.target.value;
 
     setSort(sortH);
-  }
+  };
 
   return (
     <Container fluid className="bodyCont">
       <Row>
         <Col>
-        <select aria-label="Default select example" onChange={(e) => {genreHandle(e)}} className="inputSelect">
-          <option value="All">All</option>
-          <option value="Action">Action</option>
-          <option value="Adventure">Adventure</option>
-          <option value="Animation">Animation</option>
-          <option value="Biography">Biography</option>
-          <option value="Comedy">Comedy</option>
-          <option value="Crime">Crime</option>
-          <option value="Documentary">Documentary</option>
-          <option value="Drama">Drama</option>
-          <option value="Family">Family</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Film-Noir">Film-Noir</option>
-          <option value="Game-Show">Game-Show</option>
-          <option value="History">History</option>
-          <option value="Horror">Horror</option>
-          <option value="Musical">Musical</option>
-          <option value="Music">Music</option>
-          <option value="Mystery">Mystery</option>
-          <option value="News">News</option>
-          <option value="Reality-TV">Reality-TV</option>
-          <option value="Romance">Romance</option>
-          <option value="Sci-Fi">Sci-Fi</option>
-          <option value="Short">Short</option>
-          <option value="Sport">Sport</option>
-          <option value="Talk-Show">Talk-Show</option>
-          <option value="Thriller">Thriller</option>
-          <option value="War">War</option>
-          <option value="Western">Western</option>
-        </select>
+          <InputGroup className="mb-3">
+            <InputGroup.Text id="basic-addon1">Genre</InputGroup.Text>
+            <select
+              aria-label="Default select example"
+              onChange={(e) => {
+                genreHandle(e);
+              }}
+              className="inputSelect"
+            >
+              <option value="All">All</option>
+              <option value="Action">Action</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Animation">Animation</option>
+              <option value="Biography">Biography</option>
+              <option value="Comedy">Comedy</option>
+              <option value="Crime">Crime</option>
+              <option value="Documentary">Documentary</option>
+              <option value="Drama">Drama</option>
+              <option value="Family">Family</option>
+              <option value="Fantasy">Fantasy</option>
+              <option value="Film-Noir">Film-Noir</option>
+              <option value="Game-Show">Game-Show</option>
+              <option value="History">History</option>
+              <option value="Horror">Horror</option>
+              <option value="Musical">Musical</option>
+              <option value="Music">Music</option>
+              <option value="Mystery">Mystery</option>
+              <option value="News">News</option>
+              <option value="Reality-TV">Reality-TV</option>
+              <option value="Romance">Romance</option>
+              <option value="Sci-Fi">Sci-Fi</option>
+              <option value="Short">Short</option>
+              <option value="Sport">Sport</option>
+              <option value="Talk-Show">Talk-Show</option>
+              <option value="Thriller">Thriller</option>
+              <option value="War">War</option>
+              <option value="Western">Western</option>
+            </select>
+          </InputGroup>
 
-        <select onChange={(e) => {sortHandle(e)}} className="inputSelect">
-          <option value="recent">Recent</option>
-          <option value="title">A-Z</option>
-        </select>
+          <InputGroup className="mb-3">
+            <InputGroup.Text id="basic-addon1">Sort</InputGroup.Text>
+            <select
+              onChange={(e) => {
+                sortHandle(e);
+              }}
+              className="inputSelect"
+            >
+              <option value="recent">Recent</option>
+              <option value="rating">Rating</option>
+              <option value="title">A-Z</option>
+            </select>
+          </InputGroup>
         </Col>
       </Row>
       <Row className="cardRow">
